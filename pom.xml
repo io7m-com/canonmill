@@ -11,7 +11,7 @@
 
   <groupId>com.io7m.canonmill</groupId>
   <artifactId>com.io7m.canonmill</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.canonmill</name>
@@ -27,7 +27,7 @@
   <properties>
     <bouncycastle.version>1.71</bouncycastle.version>
     <com.io7m.xstructural.version>1.5.0</com.io7m.xstructural.version>
-    <io7m.api.previousVersion>0.0.2-SNAPSHOT</io7m.api.previousVersion>
+    <io7m.api.previousVersion>0.0.3-SNAPSHOT</io7m.api.previousVersion>
     <jackson.version>2.13.2</jackson.version>
     <junit.version>5.8.2</junit.version>
     <logback.version>1.3.0-alpha14</logback.version>
