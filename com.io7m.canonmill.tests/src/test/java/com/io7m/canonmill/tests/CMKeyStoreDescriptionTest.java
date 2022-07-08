@@ -17,6 +17,7 @@
 package com.io7m.canonmill.tests;
 
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
+import com.io7m.canonmill.core.CMKeyStoreSchemas;
 import com.io7m.canonmill.core.internal.CMKeyStoreDescription;
 import com.io7m.canonmill.core.internal.CMKeyStoreDescriptions;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +30,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Map;
 
+import static com.io7m.canonmill.tests.CMGenerateKeys.generateCertificate;
+import static com.io7m.canonmill.tests.CMGenerateKeys.generateKeyPair;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -108,33 +111,44 @@ public final class CMKeyStoreDescriptionTest
   public void testBasic()
     throws Exception
   {
-    final var stream =
-      this.resource("basic.json");
+    final var kp0 =
+      generateKeyPair("k0", this.directory);
+    final var kp1 =
+      generateKeyPair("k1", this.directory);
+    final var c0 =
+      generateCertificate(kp0.keyPair(), this.directory, "c0");
+    final var c1 =
+      generateCertificate(kp0.keyPair(), this.directory, "c1");
+    final var c2 =
+      generateCertificate(kp1.keyPair(), this.directory, "c2");
+
     final var description =
-      this.descriptions.deserialize(stream);
-
-    final var root =
-      FileSystems.getDefault()
-        .getRootDirectories()
-        .iterator()
-        .next();
-
-    final var nonexistent =
-      root.resolve("nonexistent");
-
+      new CMKeyStoreDescription(
+        CMKeyStoreSchemas.schemaIdentifierV1(),
+        this.directory.toAbsolutePath(),
+        Map.ofEntries(
+          Map.entry("k0", kp0.secretKeyFile().getFileName()),
+          Map.entry("k1", kp1.secretKeyFile().getFileName())
+        ),
+        Map.ofEntries(
+          Map.entry("c0", c0.certificateFile().getFileName()),
+          Map.entry("c1", c1.certificateFile().getFileName()),
+          Map.entry("c2", c2.certificateFile().getFileName())
+        )
+      );
 
     assertEquals(
       Map.ofEntries(
-        Map.entry("www", nonexistent.resolve("www.sec")),
-        Map.entry("mail", nonexistent.resolve("mail.sec"))
+        Map.entry("k0", kp0.secretKeyFile()),
+        Map.entry("k1", kp1.secretKeyFile())
       ),
       description.keys()
     );
     assertEquals(
       Map.ofEntries(
-        Map.entry("www", nonexistent.resolve("www.crt")),
-        Map.entry("mail", nonexistent.resolve("mail.crt")),
-        Map.entry("ftp", nonexistent.resolve("ftp.crt"))
+        Map.entry("c0", c0.certificateFile()),
+        Map.entry("c1", c1.certificateFile()),
+        Map.entry("c2", c2.certificateFile())
       ),
       description.certificates()
     );
