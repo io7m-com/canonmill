@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="6faf0e45-34d4-4e48-bf6c-5ce68a0cf845"
+         title="Usage">
+
+  <Subsection title="Maven">
+    <Paragraph>
+      Use the following <LinkExternal target="https://maven.apache.org">Maven</LinkExternal> dependency:
+    </Paragraph>
+    <FormalItem title="Maven Dependency">
+      <Verbatim><![CDATA[
+<dependency>
+  <groupId>${project.groupId}</groupId>
+  <artifactId>com.io7m.canonmill.core</artifactId>
+  <version>${project.version}</version>
+</dependency>
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Index">
+    <Paragraph>
+      To use the <Term type="package">canonmill</Term> keystore, it's first necessary to create a directory that will
+      contain PEM-encoded private keys and certificates. It's then necessary to create an index file that maps <Term type="term">
+      aliases
+    </Term> to keys/certificates.
+    </Paragraph>
+    <Paragraph>
+      An an example, assume the following files exist:
+    </Paragraph>
+    <FormalItem title="Example Keys/Certificates">
+      <Table type="genericTable">
+        <Columns>
+          <Column>Name</Column>
+          <Column>Description</Column>
+        </Columns>
+        <Row>
+          <Cell>
+            <Term type="file">www.key</Term>
+          </Cell>
+          <Cell>The private key for
+            <Term type="expression">www.example.com</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="file">www.crt</Term>
+          </Cell>
+          <Cell>The public certificate for
+            <Term type="expression">www.example.com</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="file">mail.key</Term>
+          </Cell>
+          <Cell>The private key for
+            <Term type="expression">mail.example.com</Term>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Term type="file">mail.crt</Term>
+          </Cell>
+          <Cell>The public certificate for
+            <Term type="expression">mail.example.com</Term>
+          </Cell>
+        </Row>
+      </Table>
+    </FormalItem>
+    <Paragraph>
+      Now, all of these files could be placed in a directory <Term type="file">/etc/certs</Term>. We can now create the
+      index file and place it anywhere the application wants it to be. The index file has a strictly-defined JSON format
+      with a schema. An example index file might look like this:
+    </Paragraph>
+    <FormalItem title="Example Index">
+      <Verbatim>
+        <xi:include href="example.json"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+    <Paragraph>
+      Each entry in the <Term type="expression">Keys</Term> and
+      <Term type="expression">Certificates</Term>
+      map assigns an alias to a key or certificate, respectively. The filenames given are resolved relative to the
+      directory given by the <Term type="expression">BaseDirectory</Term> property.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Loading A Keystore">
+    <Paragraph>
+      To load a keystore, the standard <Term type="type">Keystore</Term> API should be used. Assuming that the
+      keystore's JSON index file exists at <Term type="expression">file</Term>:
+    </Paragraph>
+    <FormalItem title="Example Load">
+      <Verbatim><![CDATA[
+final var ks =
+  KeyStore.getInstance("CANONMILL", new CMKeyStoreProvider());
+
+try (var stream = Files.newInputStream(file)) {
+  ks.load(stream, null);
+}
+]]></Verbatim>
+    </FormalItem>
+    <Paragraph>
+      The <Term type="type">CMKeyStoreProvider</Term> class is registered using the name
+      <Term type="expression">CANONMILL</Term>
+      as service of type
+      <Term type="type">java.security.Provider</Term>
+      and so can be used in the same manner as any other provider in the JDK security API.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Schema">
+    <Paragraph>
+      The JSON schema for the keystore's index file is as follows:
+    </Paragraph>
+    <FormalItem title="Keystore Schema">
+      <Verbatim>
+        <xi:include href="com/io7m/canonmill/core/internal/keystore-1.schema.json"
+                    parse="text"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>

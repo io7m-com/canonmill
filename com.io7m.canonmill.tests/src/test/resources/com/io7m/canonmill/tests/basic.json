@@ -1,0 +1,13 @@
+{
+  "%Schema": "https://www.io7m.com/software/canonmill/keystore-1.schema.json",
+  "BaseDirectory": "/nonexistent",
+  "Keys": {
+    "www": "www.sec",
+    "mail": "mail.sec"
+  },
+  "Certificates": {
+    "www": "www.crt",
+    "mail": "mail.crt",
+    "ftp": "ftp.crt"
+  }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Document xmlns="urn:com.io7m.structural:8:0"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
+          tableOfContentsDepth="1">
+
+  <Metadata>
+    <dc:creator>Mark Raynsford</dc:creator>
+    <dc:date>2022-07-01T12:36:21+00:00</dc:date>
+    <dc:description>Documentation for the Canonmill keystore.</dc:description>
+    <dc:identifier>dcc7df2a-0093-4b52-8204-88d6f61395d6</dc:identifier>
+    <dc:language>en</dc:language>
+    <dc:rights>Public Domain</dc:rights>
+    <dc:title>Canonmill User Manual</dc:title>
+
+    <MetaProperty name="com.io7m.xstructural.web.branding.header">brand-header.xml</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.web.branding.footer">brand-footer.xml</MetaProperty>
+  </Metadata>
+
+  <xi:include href="intro.xml"/>
+  <xi:include href="usage.xml"/>
+
+</Document>

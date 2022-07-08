@@ -1,0 +1,13 @@
+{
+  "%Schema": "https://example.com",
+  "BaseDirectory": "/nonexistent",
+  "Keys": {
+    "www": "www.sec",
+    "mail": "mail.sec"
+  },
+  "Certificates": {
+    "www": "www.crt",
+    "mail": "mail.crt",
+    "ftp": "ftp.crt"
+  }
+}
