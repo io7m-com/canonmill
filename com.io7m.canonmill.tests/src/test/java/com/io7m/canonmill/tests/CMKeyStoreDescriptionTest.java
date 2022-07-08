@@ -96,10 +96,15 @@ public final class CMKeyStoreDescriptionTest
   public void testEmpty()
     throws Exception
   {
-    final var stream =
-      this.resource("empty.json");
     final var description =
-      this.descriptions.deserialize(stream);
+      this.descriptions.deserialize(this.descriptions.serialize(
+        new CMKeyStoreDescription(
+          CMKeyStoreSchemas.schemaIdentifierV1(),
+          this.directory,
+          Map.of(),
+          Map.of()
+        )
+      ));
 
     assertEquals(Map.of(), description.keys());
     assertEquals(Map.of(), description.certificates());
