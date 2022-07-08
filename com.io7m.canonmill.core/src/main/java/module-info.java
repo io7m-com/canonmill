@@ -40,5 +40,5 @@ module com.io7m.canonmill.core
   exports com.io7m.canonmill.core;
 
   opens com.io7m.canonmill.core.internal
-    to java.base;
+    to java.base, com.fasterxml.jackson.databind;
 }
