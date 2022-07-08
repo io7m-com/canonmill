@@ -1,0 +1,13 @@
+*.iml
+.idea
+pom.xml.versionsBackup
+target
+*.glob
+*.vo
+*.vok
+*.vos
+*.aux
+.lia.cache
+.nra.cache
+.nia.cache
+com.io7m.calino.specification/src/main/coq/html

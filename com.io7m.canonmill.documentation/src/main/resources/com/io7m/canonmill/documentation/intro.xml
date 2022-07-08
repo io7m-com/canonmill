@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         id="6315a233-b8c5-4e9c-a820-7c4dbacfa525"
+         title="Introduction">
+
+  <Paragraph>
+    The <Term type="package">canonmill</Term> package provides a
+    <LinkExternal target="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/security/KeyStore.html">
+      Keystore
+    </LinkExternal>
+    implementation designed to be less painful from an operational perspective than any of the
+    <Term type="type">Keystore</Term>
+    implementations included in the standard JDK.
+  </Paragraph>
+
+  <FormalItem title="Features">
+    <ListUnordered>
+      <Item>
+        Exposes a simple directory-based keystore with a single JSON file that maps certificate aliases
+        to files. Keys and certificates are expected to be PEM-encoded regular files.
+      </Item>
+      <Item>
+        Implicit compatibility with ACME systems; ACME clients can simply copy certificate files into
+        the directory and, as long as the certificates have an entry in the JSON index file, the new
+        certificates will become available as soon as the Keystore is reloaded.
+      </Item>
+      <Item>
+        A small, easily auditable codebase with use of modularity for correctness.
+      </Item>
+      <Item>
+        An extensive automated test suite with high coverage.
+      </Item>
+      <Item>
+        Platform independence. No platform-dependent code is included in any form.
+      </Item>
+      <Item>
+        <LinkExternal target="https://www.osgi.org/">OSGi</LinkExternal>-ready
+      </Item>
+      <Item>
+        <LinkExternal target="https://en.wikipedia.org/wiki/Java_Platform_Module_System">JPMS</LinkExternal>-ready
+      </Item>
+      <Item>
+        ISC license
+      </Item>
+    </ListUnordered>
+  </FormalItem>
+
+  <Paragraph>
+    The package does not support encryption of the keystore with a password, or encryption of the keystore entries with
+    passwords. In the author's opinion, this offers no real security. To elaborate, keystore encryption is intended to
+    ensure that private keys are encrypted at rest so that, in the event of a compromise, the private keys cannot be
+    used by an attacker. Unfortunately, this is ineffectual for a couple of reasons. Firstly, because nobody wants to
+    have to manually type in a password each time their server-based Java application starts, the password is typically
+    stored along with the application configuration. This means if an attacker compromises the application, they have
+    both the keys and the passwords anyway. Secondly, if an application is compromised and the keystore is stolen, the
+    keys within the keystore are going to have to be blacklisted and reissued anyway, so "protecting" them with a
+    passphrase is of very little utility.
+  </Paragraph>
+
+</Section>

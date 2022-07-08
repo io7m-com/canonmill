@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>com.io7m.canonmill</artifactId>
+    <groupId>com.io7m.canonmill</groupId>
+    <version>0.0.1</version>
+  </parent>
+
+  <artifactId>com.io7m.canonmill.core</artifactId>
+
+  <name>com.io7m.canonmill.core</name>
+  <description>Directory-based Java keystore (Core)</description>
+  <url>https://www.io7m.com/software/canonmill</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.dixmont</groupId>
+      <artifactId>com.io7m.dixmont.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jdeferthrow</groupId>
+      <artifactId>com.io7m.jdeferthrow.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15to18</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15to18</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jcip</groupId>
+      <artifactId>com.io7m.jcip.annotations</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.versioning</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+
+</project>
