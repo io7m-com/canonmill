@@ -20,18 +20,17 @@ import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
 import com.io7m.canonmill.core.internal.CMKeyStoreDescription;
 import com.io7m.canonmill.core.internal.CMKeyStoreDescriptions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class CMKeyStoreDescriptionTest
 {
@@ -114,18 +113,28 @@ public final class CMKeyStoreDescriptionTest
     final var description =
       this.descriptions.deserialize(stream);
 
+    final var root =
+      FileSystems.getDefault()
+        .getRootDirectories()
+        .iterator()
+        .next();
+
+    final var nonexistent =
+      root.resolve("nonexistent");
+
+
     assertEquals(
       Map.ofEntries(
-        Map.entry("www", Paths.get("/nonexistent/www.sec")),
-        Map.entry("mail", Paths.get("/nonexistent/mail.sec"))
+        Map.entry("www", nonexistent.resolve("www.sec")),
+        Map.entry("mail", nonexistent.resolve("mail.sec"))
       ),
       description.keys()
     );
     assertEquals(
       Map.ofEntries(
-        Map.entry("www", Paths.get("/nonexistent/www.crt")),
-        Map.entry("mail", Paths.get("/nonexistent/mail.crt")),
-        Map.entry("ftp", Paths.get("/nonexistent/ftp.crt"))
+        Map.entry("www", nonexistent.resolve("www.crt")),
+        Map.entry("mail", nonexistent.resolve("mail.crt")),
+        Map.entry("ftp", nonexistent.resolve("ftp.crt"))
       ),
       description.certificates()
     );
