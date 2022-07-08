@@ -38,4 +38,7 @@ module com.io7m.canonmill.core
   provides Provider with CMKeyStoreProvider;
 
   exports com.io7m.canonmill.core;
+
+  opens com.io7m.canonmill.core.internal
+    to java.base, com.fasterxml.jackson.databind;
 }
