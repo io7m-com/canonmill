@@ -33,6 +33,58 @@
     <logback.version>1.3.0-alpha14</logback.version>
   </properties>
 
+  <licenses>
+    <license>
+      <name>ISC License</name>
+      <url>https://www.io7m.com/license/isc.txt</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/io7m/canonmill</url>
+    <connection>scm:git:https://github.com/io7m/canonmill</connection>
+    <developerConnection>scm:git:https://github.com/io7m/canonmill</developerConnection>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>io7m</id>
+      <name>io7m</name>
+      <email>code@io7m.com</email>
+      <url>https://www.io7m.com</url>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <url>https://www.github.com/io7m/canonmill/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <distributionManagement>
+    <site>
+      <id>io7m.com</id>
+      <name>io7m.com</name>
+      <url>https://www.io7m.com/software/canonmill</url>
+    </site>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <ciManagement>
+    <system>GitHub Actions</system>
+    <url>https://github.com/canonmill/actions</url>
+  </ciManagement>
+
+  <prerequisites>
+    <maven>3.0.4</maven>
+  </prerequisites>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
