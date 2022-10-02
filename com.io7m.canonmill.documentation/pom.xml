@@ -9,7 +9,7 @@
   <parent>
     <artifactId>com.io7m.canonmill</artifactId>
     <groupId>com.io7m.canonmill</groupId>
-    <version>0.0.3</version>
+    <version>0.0.5</version>
   </parent>
 
   <artifactId>com.io7m.canonmill.documentation</artifactId>
