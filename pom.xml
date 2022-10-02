@@ -11,7 +11,7 @@
 
   <groupId>com.io7m.canonmill</groupId>
   <artifactId>com.io7m.canonmill</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.5</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.canonmill</name>
