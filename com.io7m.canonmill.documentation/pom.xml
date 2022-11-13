@@ -31,14 +31,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.io7m.xstructural</groupId>
-      <artifactId>com.io7m.xstructural.cmdline</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.xstructural</groupId>
-      <artifactId>com.io7m.xstructural.xml</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.io7m.primogenitor</groupId>
       <artifactId>com.io7m.primogenitor.support</artifactId>
     </dependency>
@@ -178,70 +170,6 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <executions>
-          <execution>
-            <id>xhtml-single</id>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <mainClass>com.io7m.xstructural.cmdline.MainExitless</mainClass>
-              <arguments>
-                <argument>xhtml</argument>
-                <argument>--brandingFile</argument>
-                <argument>${project.build.directory}/documentation/brand.xml</argument>
-                <argument>--sourceFile</argument>
-                <argument>${project.build.directory}/documentation/main.xml</argument>
-                <argument>--outputDirectory</argument>
-                <argument>${project.build.directory}/documentation</argument>
-                <argument>--stylesheet</argument>
-                <argument>SINGLE_FILE</argument>
-              </arguments>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>xhtml-multiple</id>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <mainClass>com.io7m.xstructural.cmdline.MainExitless</mainClass>
-              <arguments>
-                <argument>xhtml</argument>
-                <argument>--brandingFile</argument>
-                <argument>${project.build.directory}/documentation/brand.xml</argument>
-                <argument>--sourceFile</argument>
-                <argument>${project.build.directory}/documentation/main.xml</argument>
-                <argument>--outputDirectory</argument>
-                <argument>${project.build.directory}/documentation</argument>
-                <argument>--stylesheet</argument>
-                <argument>MULTIPLE_FILE</argument>
-              </arguments>
-            </configuration>
-          </execution>
-
-          <execution>
-            <id>epub</id>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <mainClass>com.io7m.xstructural.cmdline.MainExitless</mainClass>
-              <arguments>
-                <argument>epub</argument>
-                <argument>--sourceFile</argument>
-                <argument>${project.build.directory}/documentation/main.xml</argument>
-                <argument>--outputDirectory</argument>
-                <argument>${project.build.directory}/epub</argument>
-                <argument>--outputFileName</argument>
-                <argument>documentation.epub</argument>
-              </arguments>
-            </configuration>
-          </execution>
-
           <!-- Javadoc handling -->
           <execution>
             <id>javadoc</id>
@@ -258,6 +186,52 @@
                 <argument>${project.build.directory}/javadoc-log.txt</argument>
                 <argument>${project.build.directory}/javadoc-options</argument>
               </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Generate documentation in various formats. -->
+      <plugin>
+        <groupId>com.io7m.xstructural</groupId>
+        <artifactId>com.io7m.xstructural.maven_plugin</artifactId>
+        <version>${com.io7m.xstructural.version}</version>
+        <executions>
+          <execution>
+            <id>xhtml-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>xhtml-single</goal>
+            </goals>
+            <configuration>
+              <brandingFile>${project.build.directory}/documentation/brand.xml</brandingFile>
+              <sourceFile>${project.build.directory}/documentation/main.xml</sourceFile>
+              <outputDirectory>${project.build.directory}/documentation</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>xhtml-multi</id>
+            <phase>package</phase>
+            <goals>
+              <goal>xhtml-multi</goal>
+            </goals>
+            <configuration>
+              <brandingFile>${project.build.directory}/documentation/brand.xml</brandingFile>
+              <sourceFile>${project.build.directory}/documentation/main.xml</sourceFile>
+              <outputDirectory>${project.build.directory}/documentation</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>epub</id>
+            <phase>package</phase>
+            <goals>
+              <goal>epub</goal>
+            </goals>
+            <configuration>
+              <brandingFile>${project.build.directory}/documentation/brand.xml</brandingFile>
+              <sourceFile>${project.build.directory}/documentation/main.xml</sourceFile>
+              <outputDirectory>${project.build.directory}/epub</outputDirectory>
+              <outputFileName>documentation.epub</outputFileName>
             </configuration>
           </execution>
         </executions>

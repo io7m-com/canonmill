@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor.full</artifactId>
-    <version>7.1.1</version>
+    <version>7.4.0</version>
   </parent>
 
   <groupId>com.io7m.canonmill</groupId>
@@ -26,7 +26,7 @@
 
   <properties>
     <bouncycastle.version>1.71</bouncycastle.version>
-    <com.io7m.xstructural.version>1.5.0</com.io7m.xstructural.version>
+    <com.io7m.xstructural.version>1.8.0</com.io7m.xstructural.version>
     <io7m.api.previousVersion>0.0.3-SNAPSHOT</io7m.api.previousVersion>
     <jackson.version>2.13.2</jackson.version>
     <junit.version>5.8.2</junit.version>
@@ -183,19 +183,9 @@
         <version>0.0.2</version>
       </dependency>
       <dependency>
-        <groupId>com.io7m.xstructural</groupId>
-        <artifactId>com.io7m.xstructural.cmdline</artifactId>
-        <version>${com.io7m.xstructural.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.io7m.xstructural</groupId>
-        <artifactId>com.io7m.xstructural.xml</artifactId>
-        <version>${com.io7m.xstructural.version}</version>
-      </dependency>
-      <dependency>
         <groupId>com.io7m.primogenitor</groupId>
         <artifactId>com.io7m.primogenitor.support</artifactId>
-        <version>7.1.1</version>
+        <version>7.4.0</version>
       </dependency>
       <dependency>
         <groupId>org.osgi</groupId>
