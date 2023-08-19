@@ -146,7 +146,7 @@
               <excludes>module-info.java</excludes>
               <includeGroupIds>${project.groupId}</includeGroupIds>
               <includeArtifactIds>com.io7m.canonmill.core</includeArtifactIds>
-              <includes>**/keystore-1.schema.json</includes>
+              <includes>**/keystore-1.xsd</includes>
               <classifier>sources</classifier>
               <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
               <outputDirectory>${project.build.directory}/documentation/</outputDirectory>

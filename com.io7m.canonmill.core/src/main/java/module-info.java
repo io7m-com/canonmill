@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -27,11 +27,12 @@ module com.io7m.canonmill.core
   requires static org.osgi.annotation.versioning;
   requires static org.osgi.annotation.bundle;
 
-  requires com.fasterxml.jackson.annotation;
-  requires com.fasterxml.jackson.databind;
-  requires com.io7m.dixmont.core;
+  requires com.io7m.anethum.api;
+  requires com.io7m.blackthorne.core;
+  requires com.io7m.blackthorne.jxe;
   requires com.io7m.jcip.annotations;
   requires com.io7m.jdeferthrow.core;
+  requires com.io7m.jxe.core;
   requires org.bouncycastle.pkix;
   requires org.bouncycastle.provider;
 
@@ -39,6 +40,6 @@ module com.io7m.canonmill.core
 
   exports com.io7m.canonmill.core;
 
-  opens com.io7m.canonmill.core.internal
-    to java.base, com.fasterxml.jackson.databind;
+  exports com.io7m.canonmill.core.internal
+    to com.io7m.canonmill.tests, java.base;
 }

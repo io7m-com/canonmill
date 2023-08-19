@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,10 +14,18 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-module com.io7m.canonmill.tests
+open module com.io7m.canonmill.tests
 {
-  requires org.bouncycastle.provider;
+  requires com.io7m.anethum.api;
+  requires com.io7m.canonmill.core;
   requires org.bouncycastle.pkix;
+  requires org.bouncycastle.provider;
+  requires org.slf4j;
 
   exports com.io7m.canonmill.tests;
+
+  requires transitive org.junit.jupiter.api;
+  requires transitive org.junit.jupiter.engine;
+  requires transitive org.junit.platform.commons;
+  requires transitive org.junit.platform.engine;
 }

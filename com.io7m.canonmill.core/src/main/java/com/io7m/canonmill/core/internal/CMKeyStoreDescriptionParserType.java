@@ -14,59 +14,17 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
 
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+package com.io7m.canonmill.core.internal;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import com.io7m.anethum.api.ParserType;
 
-.term
-{
-  font-style: italic;
-}
+/**
+ * A keystore parser.
+ */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter,
-.variable
+public interface CMKeyStoreDescriptionParserType
+  extends ParserType<CMKeyStoreDescription>
 {
-  font-family: monospace;
-}
 
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
 }

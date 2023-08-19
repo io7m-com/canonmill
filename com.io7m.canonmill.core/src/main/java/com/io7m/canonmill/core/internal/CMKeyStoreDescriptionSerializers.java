@@ -14,59 +14,35 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.canonmill.core.internal;
 
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+import com.io7m.anethum.api.SerializerFactoryType;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import java.io.OutputStream;
+import java.net.URI;
 
-.term
-{
-  font-style: italic;
-}
+/**
+ * Keystore serializers.
+ */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter,
-.variable
+public final class CMKeyStoreDescriptionSerializers
+  implements SerializerFactoryType<Void, CMKeyStoreDescription, CMKeyStoreDescriptionSerializerType>
 {
-  font-family: monospace;
-}
+  /**
+   * Keystore serializers.
+   */
 
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  public CMKeyStoreDescriptionSerializers()
+  {
+
+  }
+
+  @Override
+  public CMKeyStoreDescriptionSerializerType createSerializerWithContext(
+    final Void context,
+    final URI target,
+    final OutputStream stream)
+  {
+    return new CMKeyStoreDescriptionSerializer(stream);
+  }
 }

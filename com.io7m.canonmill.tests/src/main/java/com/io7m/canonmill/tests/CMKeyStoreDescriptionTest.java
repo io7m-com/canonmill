@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,17 +16,19 @@
 
 package com.io7m.canonmill.tests;
 
-import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
-import com.io7m.canonmill.core.CMKeyStoreSchemas;
+import com.io7m.anethum.api.ParsingException;
 import com.io7m.canonmill.core.internal.CMKeyStoreDescription;
-import com.io7m.canonmill.core.internal.CMKeyStoreDescriptions;
+import com.io7m.canonmill.core.internal.CMKeyStoreDescriptionParsers;
+import com.io7m.canonmill.core.internal.CMKeyStoreDescriptionSerializers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileSystems;
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.Map;
 
@@ -37,8 +39,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class CMKeyStoreDescriptionTest
 {
-  private CMKeyStoreDescriptions descriptions;
+  private CMKeyStoreDescriptionParsers parsers;
   private Path directory;
+  private CMKeyStoreDescriptionSerializers serializers;
 
   @BeforeEach
   public void setup()
@@ -46,8 +49,10 @@ public final class CMKeyStoreDescriptionTest
   {
     this.directory =
       CMTestDirectories.createTempDirectory();
-    this.descriptions =
-      new CMKeyStoreDescriptions();
+    this.parsers =
+      new CMKeyStoreDescriptionParsers();
+    this.serializers =
+      new CMKeyStoreDescriptionSerializers();
   }
 
   @AfterEach
@@ -61,22 +66,10 @@ public final class CMKeyStoreDescriptionTest
     throws Exception
   {
     final var stream =
-      this.resource("empty-invalid.json");
+      this.resource("empty-invalid.xml");
 
-    assertThrows(IOException.class, () -> {
-      this.descriptions.deserialize(stream);
-    });
-  }
-
-  @Test
-  public void testBaseNotAbsolute()
-    throws Exception
-  {
-    final var stream =
-      this.resource("base-not-absolute.json");
-
-    assertThrows(ValueInstantiationException.class, () -> {
-      this.descriptions.deserialize(stream);
+    assertThrows(ParsingException.class, () -> {
+      this.parsers.parse(URI.create("urn:in"), stream);
     });
   }
 
@@ -85,10 +78,10 @@ public final class CMKeyStoreDescriptionTest
     throws Exception
   {
     final var stream =
-      this.resource("base-wrong-schema.json");
+      this.resource("base-wrong-schema.xml");
 
-    assertThrows(ValueInstantiationException.class, () -> {
-      this.descriptions.deserialize(stream);
+    assertThrows(ParsingException.class, () -> {
+      this.parsers.parse(URI.create("urn:in"), stream);
     });
   }
 
@@ -96,15 +89,23 @@ public final class CMKeyStoreDescriptionTest
   public void testEmpty()
     throws Exception
   {
+    final var output = new ByteArrayOutputStream();
+
+    this.serializers.serialize(
+      URI.create("urn:in"),
+      output,
+      new CMKeyStoreDescription(
+        this.directory,
+        Map.of(),
+        Map.of()
+      )
+    );
+
     final var description =
-      this.descriptions.deserialize(this.descriptions.serialize(
-        new CMKeyStoreDescription(
-          CMKeyStoreSchemas.schemaIdentifierV1(),
-          this.directory,
-          Map.of(),
-          Map.of()
-        )
-      ));
+      this.parsers.parse(
+        URI.create("urn:in"),
+        new ByteArrayInputStream(output.toByteArray())
+      );
 
     assertEquals(Map.of(), description.keys());
     assertEquals(Map.of(), description.certificates());
@@ -129,7 +130,6 @@ public final class CMKeyStoreDescriptionTest
 
     final var description =
       new CMKeyStoreDescription(
-        CMKeyStoreSchemas.schemaIdentifierV1(),
         this.directory.toAbsolutePath(),
         Map.ofEntries(
           Map.entry("k0", kp0.secretKeyFile().getFileName()),
@@ -163,11 +163,14 @@ public final class CMKeyStoreDescriptionTest
 
   private void roundTrip(
     final CMKeyStoreDescription description)
-    throws IOException
+    throws Exception
   {
+    final var output = new ByteArrayOutputStream();
+    this.serializers.serialize(URI.create("urn:in"), output, description);
+
     final var result =
-      this.descriptions.deserialize(
-        this.descriptions.serialize(description)
+      this.parsers.parse(
+        URI.create("urn:out"), new ByteArrayInputStream(output.toByteArray())
       );
 
     assertEquals(description, result);

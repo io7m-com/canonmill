@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Keystore xmlns="urn:com.io7m.canonmill.keystore:1"
+          BaseDirectory="/etc/certs">
+  <Key Name="www.example.com"
+       File="www.key"/>
+  <Key Name="mail.example.com"
+       File="mail.key"/>
+  <Certificate Name="www.example.com"
+               File="www.crt"/>
+  <Certificate Name="mail.example.com"
+               File="mail.crt"/>
+</Keystore>

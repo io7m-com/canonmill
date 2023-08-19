@@ -20,16 +20,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.dixmont</groupId>
-      <artifactId>com.io7m.dixmont.core</artifactId>
+      <groupId>com.io7m.anethum</groupId>
+      <artifactId>com.io7m.anethum.api</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.jdeferthrow</groupId>
@@ -46,6 +38,22 @@
     <dependency>
       <groupId>com.io7m.jcip</groupId>
       <artifactId>com.io7m.jcip.annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.blackthorne</groupId>
+      <artifactId>com.io7m.blackthorne.jxe</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.blackthorne</groupId>
+      <artifactId>com.io7m.blackthorne.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jlexing</groupId>
+      <artifactId>com.io7m.jlexing.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jxe</groupId>
+      <artifactId>com.io7m.jxe.core</artifactId>
     </dependency>
 
     <dependency>
