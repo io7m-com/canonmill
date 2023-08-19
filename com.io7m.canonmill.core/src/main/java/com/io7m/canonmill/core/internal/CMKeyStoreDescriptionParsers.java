@@ -14,59 +14,38 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-.brandingContainer
-{
-  margin: 1em;
-}
+package com.io7m.canonmill.core.internal;
 
-.brandingContainerFooter
-{
-  margin-top: 2em;
-}
+import com.io7m.anethum.api.ParseStatus;
+import com.io7m.anethum.api.ParserFactoryType;
 
-.branding
-{
-  font-family: monospace;
-  font-size:   80%;
-}
+import java.io.InputStream;
+import java.net.URI;
+import java.util.function.Consumer;
 
-.term
-{
-  font-style: italic;
-}
+/**
+ * Keystore parsers.
+ */
 
-.command,
-.constant,
-.element,
-.expression,
-.file,
-.package,
-.parameter,
-.variable
+public final class CMKeyStoreDescriptionParsers
+  implements ParserFactoryType<Void, CMKeyStoreDescription, CMKeyStoreDescriptionParserType>
 {
-  font-family: monospace;
-}
+  /**
+   * Keystore parsers.
+   */
 
-.genericTable
-{
-  border:          1px solid #dddddd;
-  width:           100%;
-  border-collapse: collapse;
-}
-.genericTable th
-{
-  border:     1px solid #dddddd;
-  text-align: left;
-  font-size:  var(--stFontSize);
-  padding:    0.5em;
-}
-.genericTable td
-{
-  border:    1px solid #dddddd;
-  font-size: var(--stFontSize);
-  padding:   0.5em;
-}
-.genericTable td:nth-child(1)
-{
-  width: 12em;
+  public CMKeyStoreDescriptionParsers()
+  {
+
+  }
+
+  @Override
+  public CMKeyStoreDescriptionParserType createParserWithContext(
+    final Void context,
+    final URI source,
+    final InputStream stream,
+    final Consumer<ParseStatus> statusConsumer)
+  {
+    return new CMKeyStoreDescriptionParser(source, stream, statusConsumer);
+  }
 }

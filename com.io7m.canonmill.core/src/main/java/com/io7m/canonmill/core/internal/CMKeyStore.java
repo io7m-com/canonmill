@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,11 +16,14 @@
 
 package com.io7m.canonmill.core.internal;
 
+import com.io7m.anethum.api.ParsingException;
+import com.io7m.anethum.api.SerializationException;
 import com.io7m.canonmill.core.CMKeyStoreProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.security.Key;
 import java.security.KeyStoreSpi;
 import java.security.cert.Certificate;
@@ -36,7 +39,8 @@ import java.util.Objects;
 
 public final class CMKeyStore extends KeyStoreSpi
 {
-  private final CMKeyStoreDescriptions stores;
+  private final CMKeyStoreDescriptionParsers parsers;
+  private final CMKeyStoreDescriptionSerializers serializers;
   private volatile CMKeyStoreInstance store;
   private volatile CMKeyStoreDescription description;
 
@@ -46,8 +50,10 @@ public final class CMKeyStore extends KeyStoreSpi
 
   public CMKeyStore()
   {
-    this.stores =
-      new CMKeyStoreDescriptions();
+    this.parsers =
+      new CMKeyStoreDescriptionParsers();
+    this.serializers =
+      new CMKeyStoreDescriptionSerializers();
     this.store =
       CMKeyStoreInstance.empty();
   }
@@ -198,7 +204,15 @@ public final class CMKeyStore extends KeyStoreSpi
     final char[] password)
     throws IOException
   {
-    stream.write(this.stores.serialize(this.description));
+    try {
+      this.serializers.serialize(
+        URI.create("urn:output"),
+        stream,
+        this.description
+      );
+    } catch (final SerializationException e) {
+      throw new IOException(e.getMessage(), e);
+    }
   }
 
   @Override
@@ -207,8 +221,12 @@ public final class CMKeyStore extends KeyStoreSpi
     final char[] password)
     throws IOException
   {
-    this.description =
-      this.stores.deserialize(stream);
+    try {
+      this.description =
+        this.parsers.parse(URI.create("urn:source"), stream);
+    } catch (final ParsingException e) {
+      throw new IOException(e.getMessage(), e);
+    }
     this.store =
       CMKeyStoreInstance.create(this.description);
   }

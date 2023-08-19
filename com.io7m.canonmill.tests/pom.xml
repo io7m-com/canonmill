@@ -9,7 +9,7 @@
   <parent>
     <artifactId>com.io7m.canonmill</artifactId>
     <groupId>com.io7m.canonmill</groupId>
-    <version>0.0.5</version>
+    <version>1.0.0-beta0001</version>
   </parent>
 
   <artifactId>com.io7m.canonmill.tests</artifactId>
@@ -20,6 +20,7 @@
 
   <properties>
     <mdep.analyze.skip>true</mdep.analyze.skip>
+    <checkstyle.skip>true</checkstyle.skip>
   </properties>
 
   <dependencies>

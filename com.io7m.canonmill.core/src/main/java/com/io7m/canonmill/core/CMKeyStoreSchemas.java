@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,39 +16,50 @@
 
 package com.io7m.canonmill.core;
 
-import java.io.InputStream;
+import com.io7m.jxe.core.JXESchemaDefinition;
+import com.io7m.jxe.core.JXESchemaResolutionMappings;
+
+import java.net.URI;
 
 /**
- * Access to JSON schemas.
+ * Access to XML schemas.
  */
 
 public final class CMKeyStoreSchemas
 {
-  private static final String SCHEMA_VERSION_URI =
-    "https://www.io7m.com/software/canonmill/keystore-1.schema.json";
+  private static final JXESchemaDefinition SCHEMA_1 =
+    JXESchemaDefinition.builder()
+      .setFileIdentifier("keystore-1.xsd")
+      .setLocation(CMKeyStoreSchemas.class.getResource(
+        "/com/io7m/canonmill/core/internal/keystore-1.xsd"))
+      .setNamespace(URI.create("urn:com.io7m.canonmill.keystore:1"))
+      .build();
+
+  private static final JXESchemaResolutionMappings SCHEMA_MAPPINGS =
+    JXESchemaResolutionMappings.builder()
+      .putMappings(SCHEMA_1.namespace(), SCHEMA_1)
+      .build();
+
+  /**
+   * @return The v1 schema
+   */
+
+  public static JXESchemaDefinition schema1()
+  {
+    return SCHEMA_1;
+  }
+
+  /**
+   * @return The set of supported schemas.
+   */
+
+  public static JXESchemaResolutionMappings schemas()
+  {
+    return SCHEMA_MAPPINGS;
+  }
 
   private CMKeyStoreSchemas()
   {
 
-  }
-
-  /**
-   * @return The schema identifier for format version 1
-   */
-
-  public static String schemaIdentifierV1()
-  {
-    return SCHEMA_VERSION_URI;
-  }
-
-  /**
-   * @return The schema for format version 1
-   */
-
-  public static InputStream schemaV1()
-  {
-    return CMKeyStoreSchemas.class.getResourceAsStream(
-      "/com/io7m/canonmill/core/internal/keystore-1.schema.json"
-    );
   }
 }

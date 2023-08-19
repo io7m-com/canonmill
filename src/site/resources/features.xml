@@ -3,13 +3,15 @@
 <div xmlns="http://www.w3.org/1999/xhtml">
   <ul>
     <li>
-      Exposes a simple directory-based keystore with a single JSON file that maps certificate aliases to files. Keys and
-      certificates are expected to be PEM-encoded regular files.
+      Exposes a simple directory-based keystore with a single XML file that maps
+      certificate aliases to files. Keys and certificates are expected to be
+      PEM-encoded regular files.
     </li>
     <li>
-      Implicit compatibility with ACME systems; ACME clients can simply copy certificate files into the directory and,
-      as long as the certificates have an entry in the JSON index file, the new certificates will become available as
-      soon as the Keystore is reloaded.
+      Implicit compatibility with ACME systems; ACME clients can simply copy
+      certificate files into the directory and, as long as the certificates have
+      an entry in the XML index file, the new certificates will become
+      available as soon as the Keystore is reloaded.
     </li>
     <li>
       A small, easily auditable codebase with use of modularity for correctness.
@@ -26,7 +28,8 @@
     </li>
     <li>
       <a href="https://en.wikipedia.org/wiki/Java_Platform_Module_System"
-         title="https://en.wikipedia.org/wiki/Java_Platform_Module_System">JPMS</a>-ready
+         title="https://en.wikipedia.org/wiki/Java_Platform_Module_System">
+        JPMS</a>-ready
     </li>
     <li>
       ISC license

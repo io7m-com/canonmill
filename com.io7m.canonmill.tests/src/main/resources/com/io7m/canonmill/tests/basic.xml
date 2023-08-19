@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Keystore xmlns="urn:com.io7m.canonmill.keystore:1"
+          BaseDirectory="/nonexistent">
+  <Key Name="www" File="www.sec"/>
+  <Key Name="mail" File="mail.sec"/>
+  <Certificate Name="www" File="www.crt"/>
+  <Certificate Name="mail" File="mail.crt"/>
+  <Certificate Name="ftp" File="ftp.crt"/>
+</Keystore>
