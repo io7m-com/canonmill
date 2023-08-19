@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -17,9 +17,9 @@
 package com.io7m.canonmill.tests;
 
 import com.io7m.canonmill.core.CMKeyStoreProvider;
-import com.io7m.canonmill.core.CMKeyStoreSchemas;
 import com.io7m.canonmill.core.internal.CMKeyStoreDescription;
-import com.io7m.canonmill.core.internal.CMKeyStoreDescriptions;
+import com.io7m.canonmill.core.internal.CMKeyStoreDescriptionParsers;
+import com.io7m.canonmill.core.internal.CMKeyStoreDescriptionSerializers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,8 +49,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public final class CMKeyStoreTest
 {
-  private CMKeyStoreDescriptions descriptions;
+  private CMKeyStoreDescriptionParsers descriptions;
   private Path directory;
+  private CMKeyStoreDescriptionSerializers serializers;
 
   @BeforeEach
   public void setup()
@@ -59,7 +60,9 @@ public final class CMKeyStoreTest
     this.directory =
       CMTestDirectories.createTempDirectory();
     this.descriptions =
-      new CMKeyStoreDescriptions();
+      new CMKeyStoreDescriptionParsers();
+    this.serializers =
+      new CMKeyStoreDescriptionSerializers();
   }
 
   @AfterEach
@@ -74,14 +77,13 @@ public final class CMKeyStoreTest
   {
     final var description =
       new CMKeyStoreDescription(
-        CMKeyStoreSchemas.schemaIdentifierV1(),
         this.directory,
         Map.of(),
         Map.of()
       );
 
     final var file = this.directory.resolve("keystore.cmks");
-    Files.write(file, this.descriptions.serialize(description));
+    this.serializers.serializeFile(file, description);
 
     final var ks =
       KeyStore.getInstance(providerName(), new CMKeyStoreProvider());
@@ -110,7 +112,6 @@ public final class CMKeyStoreTest
 
     final var description =
       new CMKeyStoreDescription(
-        CMKeyStoreSchemas.schemaIdentifierV1(),
         this.directory.toAbsolutePath(),
         Map.ofEntries(
           Map.entry("k0", kp0.secretKeyFile().getFileName()),
@@ -124,7 +125,7 @@ public final class CMKeyStoreTest
       );
 
     final var file = this.directory.resolve("keystore.cmks");
-    Files.write(file, this.descriptions.serialize(description));
+    this.serializers.serializeFile(file, description);
 
     final var ks =
       KeyStore.getInstance(providerName(), new CMKeyStoreProvider());

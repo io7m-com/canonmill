@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,7 +15,10 @@
  */
 
 /**
- * Directory-based Java keystore (Test suite)
+ * Directory-based Java keystore (Core [internals])
  */
 
-package com.io7m.canonmill.tests;
+@Version("1.0.0")
+package com.io7m.canonmill.core.internal.v1;
+
+import org.osgi.annotation.versioning.Version;

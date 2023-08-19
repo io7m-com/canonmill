@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2023 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,16 +16,14 @@
 
 package com.io7m.canonmill.tests;
 
-import com.io7m.canonmill.core.CMKeyStoreSchemas;
 import com.io7m.canonmill.core.internal.CMKeyStoreDescription;
-import com.io7m.canonmill.core.internal.CMKeyStoreDescriptions;
+import com.io7m.canonmill.core.internal.CMKeyStoreDescriptionParsers;
 import com.io7m.canonmill.core.internal.CMKeyStoreInstance;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -40,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public final class CMKeyStoreInstanceTest
 {
-  private CMKeyStoreDescriptions descriptions;
+  private CMKeyStoreDescriptionParsers descriptions;
   private Path directory;
 
   @BeforeEach
@@ -83,7 +81,6 @@ public final class CMKeyStoreInstanceTest
 
     final var i = CMKeyStoreInstance.create(
       new CMKeyStoreDescription(
-        CMKeyStoreSchemas.schemaIdentifierV1(),
         this.directory.toAbsolutePath(),
         Map.ofEntries(
           Map.entry("k0", kp0.secretKeyFile().getFileName()),
@@ -112,7 +109,6 @@ public final class CMKeyStoreInstanceTest
       assertThrows(IOException.class, () -> {
         CMKeyStoreInstance.create(
           new CMKeyStoreDescription(
-            CMKeyStoreSchemas.schemaIdentifierV1(),
             this.directory.toAbsolutePath(),
             Map.ofEntries(
               Map.entry("k0", kp0.secretKeyFile().getFileName())
@@ -140,7 +136,6 @@ public final class CMKeyStoreInstanceTest
       assertThrows(IOException.class, () -> {
         CMKeyStoreInstance.create(
           new CMKeyStoreDescription(
-            CMKeyStoreSchemas.schemaIdentifierV1(),
             this.directory.toAbsolutePath(),
             Map.ofEntries(
               Map.entry("c0", c0.certificateFile().getFileName())
@@ -166,7 +161,6 @@ public final class CMKeyStoreInstanceTest
       assertThrows(NoSuchFileException.class, () -> {
         CMKeyStoreInstance.create(
           new CMKeyStoreDescription(
-            CMKeyStoreSchemas.schemaIdentifierV1(),
             this.directory.toAbsolutePath(),
             Map.ofEntries(
               Map.entry("k0", kp0.secretKeyFile().getFileName())
@@ -192,7 +186,6 @@ public final class CMKeyStoreInstanceTest
       assertThrows(NoSuchFileException.class, () -> {
         CMKeyStoreInstance.create(
           new CMKeyStoreDescription(
-            CMKeyStoreSchemas.schemaIdentifierV1(),
             this.directory.toAbsolutePath(),
             Map.ofEntries(
               Map.entry("k0", this.directory.resolve("nonexistent"))
@@ -223,7 +216,6 @@ public final class CMKeyStoreInstanceTest
       assertThrows(IOException.class, () -> {
         CMKeyStoreInstance.create(
           new CMKeyStoreDescription(
-            CMKeyStoreSchemas.schemaIdentifierV1(),
             this.directory.toAbsolutePath(),
             Map.ofEntries(
               Map.entry("k0", kp0.secretKeyFile().getFileName())
@@ -257,7 +249,6 @@ public final class CMKeyStoreInstanceTest
       assertThrows(IOException.class, () -> {
         CMKeyStoreInstance.create(
           new CMKeyStoreDescription(
-            CMKeyStoreSchemas.schemaIdentifierV1(),
             this.directory.toAbsolutePath(),
             Map.ofEntries(
               Map.entry("k0", garbage)
