@@ -12,4 +12,9 @@
   <!-- String from bytes. -->
   <suppress files="CMKeyStoreProvider\.java"
             checks="IllegalInstantiation"/>
+  
+  <!-- Not our fault that the security API uses so many checked exceptions. -->
+  <suppress files="CMKeyStores\.java"
+            checks="ThrowsCount"/>
+
 </suppressions>

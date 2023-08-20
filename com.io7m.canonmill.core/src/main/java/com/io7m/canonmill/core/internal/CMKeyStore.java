@@ -19,6 +19,8 @@ package com.io7m.canonmill.core.internal;
 import com.io7m.anethum.api.ParsingException;
 import com.io7m.anethum.api.SerializationException;
 import com.io7m.canonmill.core.CMKeyStoreProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,6 +41,9 @@ import java.util.Objects;
 
 public final class CMKeyStore extends KeyStoreSpi
 {
+  private static final Logger LOG =
+    LoggerFactory.getLogger(CMKeyStore.class);
+
   private final CMKeyStoreDescriptionParsers parsers;
   private final CMKeyStoreDescriptionSerializers serializers;
   private volatile CMKeyStoreInstance store;
@@ -70,6 +75,8 @@ public final class CMKeyStore extends KeyStoreSpi
     final String alias,
     final char[] password)
   {
+    LOG.trace("engineGetKey: {}", alias);
+
     final var e = this.store.keyEntries().get(alias);
     if (e == null) {
       return null;
@@ -81,6 +88,8 @@ public final class CMKeyStore extends KeyStoreSpi
   public Certificate[] engineGetCertificateChain(
     final String alias)
   {
+    LOG.trace("engineGetCertificateChain: {}", alias);
+
     final var e = this.store.certEntries().get(alias);
     if (e == null) {
       return null;
@@ -92,6 +101,8 @@ public final class CMKeyStore extends KeyStoreSpi
   public Certificate engineGetCertificate(
     final String alias)
   {
+    LOG.trace("engineGetCertificate: {}", alias);
+
     final var e = this.store.certEntries().get(alias);
     if (e == null) {
       return null;
@@ -103,6 +114,8 @@ public final class CMKeyStore extends KeyStoreSpi
   public Date engineGetCreationDate(
     final String alias)
   {
+    LOG.trace("engineGetCreationDate: {}", alias);
+
     final var ek = this.store.keyEntries().get(alias);
     if (ek != null) {
       return Date.from(ek.creationTime().toInstant());
@@ -204,6 +217,8 @@ public final class CMKeyStore extends KeyStoreSpi
     final char[] password)
     throws IOException
   {
+    LOG.trace("engineStore");
+
     try {
       this.serializers.serialize(
         URI.create("urn:output"),
@@ -221,6 +236,8 @@ public final class CMKeyStore extends KeyStoreSpi
     final char[] password)
     throws IOException
   {
+    LOG.trace("engineLoad");
+
     try {
       this.description =
         this.parsers.parse(URI.create("urn:source"), stream);
