@@ -9,7 +9,7 @@
   <parent>
     <artifactId>com.io7m.canonmill</artifactId>
     <groupId>com.io7m.canonmill</groupId>
-    <version>1.0.0-beta0001</version>
+    <version>1.0.0</version>
   </parent>
 
   <artifactId>com.io7m.canonmill.core</artifactId>
@@ -54,6 +54,10 @@
     <dependency>
       <groupId>com.io7m.jxe</groupId>
       <artifactId>com.io7m.jxe.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
 
     <dependency>

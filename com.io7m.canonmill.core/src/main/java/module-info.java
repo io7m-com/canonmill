@@ -35,6 +35,7 @@ module com.io7m.canonmill.core
   requires com.io7m.jxe.core;
   requires org.bouncycastle.pkix;
   requires org.bouncycastle.provider;
+  requires org.slf4j;
 
   provides Provider with CMKeyStoreProvider;
 

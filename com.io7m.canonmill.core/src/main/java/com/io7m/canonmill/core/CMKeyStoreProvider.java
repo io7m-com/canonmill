@@ -29,6 +29,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public final class CMKeyStoreProvider extends Provider
 {
   private static final String PROVIDER_NAME = "CANONMILL";
+  private static final String KEYSTORE_TYPE = "CANONMILL";
 
   /**
    * The {@code canonmill} keystore provider.
@@ -54,6 +55,15 @@ public final class CMKeyStoreProvider extends Provider
   public static String providerName()
   {
     return PROVIDER_NAME;
+  }
+
+  /**
+   * @return The {@code canonmill} keystore type name
+   */
+
+  public static String keystoreType()
+  {
+    return KEYSTORE_TYPE;
   }
 
   private static String version()

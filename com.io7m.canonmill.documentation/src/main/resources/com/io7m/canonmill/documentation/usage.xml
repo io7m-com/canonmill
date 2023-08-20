@@ -120,6 +120,40 @@ try (var stream = Files.newInputStream(file)) {
     </Paragraph>
   </Subsection>
 
+  <Subsection title="Reloading A Keystore">
+    <Paragraph>
+      The standard keystore API provides methods to reload
+      <Term type="type">KeyStore</Term> values at any time. Unfortunately,
+      other parts of the security API such as the
+      <Term type="type">SSLContext</Term> will cache the keys and certificates
+      internally and so reloading the <Term type="type">KeyStore</Term>
+      is ineffective.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="type">CMKeyStores</Term> class contains convenience
+      methods to construct an <Term type="type">SSLContext</Term> for use
+      in applications, and to reload any given
+      <Term type="type">SSLContext</Term>.
+    </Paragraph>
+    <FormalItem title="Example Reload">
+      <Verbatim><![CDATA[
+final KeyStore ks =
+  CMKeyStores.openKeyStore(Paths.get("ServerKeyStore.xml"));
+final KeyStore ts =
+  CMKeyStores.openKeyStore(Paths.get("ServerTrustStore.xml"));
+
+final SSLContext context =
+  CMKeyStores.createSSLContext(ks, ts, "TLSv1.3");
+
+// Open server sockets, etc
+
+CMKeyStores.reloadKeystoreFromFile(ks, Paths.get("ServerKeyStore.xml"));
+CMKeyStores.reloadKeystoreFromFile(ts, Paths.get("ServerTrustStore.xml"));
+CMKeyStores.reloadSSLContext(ks, ts, context);
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+
   <Subsection title="Schema">
     <Paragraph>
       The XML schema for the keystore's index file is as follows:
