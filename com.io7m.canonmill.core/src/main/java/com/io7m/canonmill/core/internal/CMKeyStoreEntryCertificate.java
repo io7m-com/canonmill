@@ -17,7 +17,7 @@
 package com.io7m.canonmill.core.internal;
 
 import java.nio.file.Path;
-import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
@@ -33,7 +33,7 @@ import java.util.Objects;
 public record CMKeyStoreEntryCertificate(
   String alias,
   Path file,
-  Certificate certificate,
+  X509Certificate certificate,
   OffsetDateTime creationTime)
   implements CMKeyStoreEntryType
 {
