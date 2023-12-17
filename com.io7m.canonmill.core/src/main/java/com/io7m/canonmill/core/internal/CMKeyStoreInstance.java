@@ -20,7 +20,6 @@ import com.io7m.jdeferthrow.core.ExceptionTracker;
 import net.jcip.annotations.Immutable;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
@@ -198,8 +197,7 @@ public final class CMKeyStoreInstance
     throws IOException
   {
     final var converter =
-      new JcaPEMKeyConverter()
-        .setProvider(new BouncyCastleProvider());
+      new JcaPEMKeyConverter();
 
     try (var stream = Files.newInputStream(keyFile)) {
       try (var reader = new PEMParser(new InputStreamReader(stream, UTF_8))) {
@@ -210,11 +208,12 @@ public final class CMKeyStoreInstance
           );
         }
 
-        if (object instanceof PEMKeyPair pair) {
-          return converter.getKeyPair(pair).getPrivate();
+        if (object instanceof final PEMKeyPair pair) {
+          final var keyPair = converter.getKeyPair(pair);
+          return keyPair.getPrivate();
         }
 
-        if (object instanceof PrivateKeyInfo keyInfo) {
+        if (object instanceof final PrivateKeyInfo keyInfo) {
           return converter.getPrivateKey(keyInfo);
         }
 
