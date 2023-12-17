@@ -23,6 +23,8 @@ import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -31,37 +33,63 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.security.PrivateKey;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
- * A POJO keystore instance.
+ * <p>A POJO keystore instance.</p>
  *
- * Instances are immutable and thread-safe.
+ * <p>Instances are immutable and thread-safe.</p>
  */
 
 @Immutable
 public final class CMKeyStoreInstance
 {
+  private static final Logger LOG =
+    LoggerFactory.getLogger(CMKeyStoreInstance.class);
+
   private final Map<String, CMKeyStoreEntryKey> keyEntries;
-  private final Map<String, CMKeyStoreEntryCertificate> certEntries;
+  private final Map<String, CMKeyStoreEntryCertificate> certEntriesByAlias;
+  private final Set<CMKeyStoreEntryCertificate> certificates;
+  private final Map<String, CMKeyStoreEntryCertificate> certEntriesByCN;
 
   private CMKeyStoreInstance(
     final Map<String, CMKeyStoreEntryKey> inKeyEntries,
-    final Map<String, CMKeyStoreEntryCertificate> inCertEntries)
+    final Map<String, CMKeyStoreEntryCertificate> inCertEntriesByAlias,
+    final Map<String, CMKeyStoreEntryCertificate> inCertEntriesByCN,
+    final Set<CMKeyStoreEntryCertificate> inCertificates)
   {
     this.keyEntries =
       Objects.requireNonNull(inKeyEntries, "keyEntries");
-    this.certEntries =
-      Objects.requireNonNull(inCertEntries, "certEntries");
+    this.certEntriesByAlias =
+      Objects.requireNonNull(inCertEntriesByAlias, "certEntries");
+    this.certEntriesByCN =
+      Objects.requireNonNull(inCertEntriesByCN, "certEntries");
+    this.certificates =
+      Objects.requireNonNull(inCertificates, "certificates");
+
+    for (final var c : inCertEntriesByAlias.values()) {
+      if (!inCertificates.contains(c)) {
+        throw new IllegalStateException("All certificate entries must exist.");
+      }
+    }
+    for (final var c : inCertEntriesByCN.values()) {
+      if (!inCertificates.contains(c)) {
+        throw new IllegalStateException("All certificate entries must exist.");
+      }
+    }
   }
 
   /**
@@ -70,7 +98,12 @@ public final class CMKeyStoreInstance
 
   public static CMKeyStoreInstance empty()
   {
-    return new CMKeyStoreInstance(Map.of(), Map.of());
+    return new CMKeyStoreInstance(
+      Map.of(),
+      Map.of(),
+      Map.of(),
+      Set.of()
+    );
   }
 
   /**
@@ -91,8 +124,12 @@ public final class CMKeyStoreInstance
 
     final var keyEntries =
       new HashMap<String, CMKeyStoreEntryKey>();
-    final var certEntries =
+    final var certEntriesByAlias =
       new HashMap<String, CMKeyStoreEntryCertificate>();
+    final var certEntriesByCN =
+      new HashMap<String, CMKeyStoreEntryCertificate>();
+    final var certEntries =
+      new HashSet<CMKeyStoreEntryCertificate>();
 
     final var exceptions =
       new ExceptionTracker<IOException>();
@@ -109,6 +146,7 @@ public final class CMKeyStoreInstance
         final var entry =
           new CMKeyStoreEntryKey(alias, keyFile, privateKey, fileDate);
 
+        LOG.trace("Private Key [{}]: {}", alias, keyFile);
         keyEntries.put(alias, entry);
       } catch (final IOException ex) {
         exceptions.addException(ex);
@@ -120,19 +158,51 @@ public final class CMKeyStoreInstance
       final var certFile = e.getValue();
 
       try {
-        final var certificate =
-          loadCertificate(certFile);
-        final var fileDate =
-          fileDate(certFile);
-        final var entry =
-          new CMKeyStoreEntryCertificate(
-            alias,
-            certFile,
-            certificate,
-            fileDate
-          );
+        final var certificates =
+          loadCertificates(certFile);
 
-        certEntries.put(alias, entry);
+        {
+          final var certificate =
+            certificates.get(0);
+          final var name =
+            certificate.getSubjectX500Principal().getName();
+          final var fileDate =
+            fileDate(certFile);
+          final var entry =
+            new CMKeyStoreEntryCertificate(
+              alias,
+              certFile,
+              certificate,
+              fileDate
+            );
+
+          LOG.trace("Certificate [{}]: {} ({})", alias, name, certFile);
+          certEntriesByAlias.put(alias, entry);
+          certEntriesByCN.put(name, entry);
+          certEntries.add(entry);
+        }
+
+        for (int index = 1; index < certificates.size(); ++index) {
+          final var certificate =
+            certificates.get(index);
+          final var fileDate =
+            fileDate(certFile);
+
+          final var name =
+            certificate.getSubjectX500Principal().getName();
+          final var entry =
+            new CMKeyStoreEntryCertificate(
+              name,
+              certFile,
+              certificate,
+              fileDate
+            );
+
+          LOG.trace("Certificate [{}]: ({})", name, certFile);
+          certEntriesByCN.put(name, entry);
+          certEntries.add(entry);
+        }
+
       } catch (final IOException ex) {
         exceptions.addException(ex);
       } catch (final CertificateException ex) {
@@ -143,7 +213,9 @@ public final class CMKeyStoreInstance
     exceptions.throwIfNecessary();
     return new CMKeyStoreInstance(
       Map.copyOf(keyEntries),
-      Map.copyOf(certEntries)
+      Map.copyOf(certEntriesByAlias),
+      Map.copyOf(certEntriesByCN),
+      Set.copyOf(certEntries)
     );
   }
 
@@ -162,34 +234,47 @@ public final class CMKeyStoreInstance
     return OffsetDateTime.ofInstant(time, ZoneId.systemDefault());
   }
 
-  private static Certificate loadCertificate(
+  private static List<X509Certificate> loadCertificates(
     final Path certFile)
     throws CertificateException, IOException
   {
+    final var results = new LinkedList<X509Certificate>();
     try (var stream = Files.newInputStream(certFile)) {
       final var factory =
         CertificateFactory.getInstance("X.509");
 
       try (var reader = new PEMParser(new InputStreamReader(stream, UTF_8))) {
-        final var object = reader.readObject();
-        if (object == null) {
+        while (true) {
+          final var object = reader.readObject();
+          if (object == null) {
+            break;
+          }
+
+          if (object instanceof X509CertificateHolder) {
+            final var certHolder = (X509CertificateHolder) object;
+            results.add(
+              (X509Certificate)
+                factory.generateCertificate(
+                  new ByteArrayInputStream(certHolder.getEncoded())
+                )
+            );
+            continue;
+          }
+
           throw new IOException(
-            "Could not load anything from file '%s'".formatted(certFile)
+            "Expected an X.509 certificate, received: %s".formatted(object)
           );
         }
-
-        if (object instanceof X509CertificateHolder) {
-          final var certHolder = (X509CertificateHolder) object;
-          return factory.generateCertificate(
-            new ByteArrayInputStream(certHolder.getEncoded())
-          );
-        }
-
-        throw new IOException(
-          "Expected an X.509 certificate, received: %s".formatted(object)
-        );
       }
     }
+
+    if (results.isEmpty()) {
+      throw new IOException(
+        "Could not load anything from file '%s'".formatted(certFile)
+      );
+    }
+
+    return List.copyOf(results);
   }
 
   private static PrivateKey loadPrivateKey(
@@ -234,11 +319,20 @@ public final class CMKeyStoreInstance
   }
 
   /**
-   * @return A read-only view of the certificate entries
+   * @return A read-only view of the certificate entries by alias
    */
 
-  public Map<String, CMKeyStoreEntryCertificate> certEntries()
+  public Map<String, CMKeyStoreEntryCertificate> certEntriesByAlias()
   {
-    return this.certEntries;
+    return this.certEntriesByAlias;
+  }
+
+  /**
+   * @return A read-only view of the certificate entries by common name
+   */
+
+  public Map<String, CMKeyStoreEntryCertificate> certEntriesByCN()
+  {
+    return this.certEntriesByCN;
   }
 }

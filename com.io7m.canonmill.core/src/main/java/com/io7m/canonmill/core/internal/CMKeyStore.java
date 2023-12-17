@@ -29,6 +29,7 @@ import java.net.URI;
 import java.security.Key;
 import java.security.KeyStoreSpi;
 import java.security.cert.Certificate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
@@ -90,11 +91,45 @@ public final class CMKeyStore extends KeyStoreSpi
   {
     LOG.trace("engineGetCertificateChain: {}", alias);
 
-    final var e = this.store.certEntries().get(alias);
+    final var certificates = new ArrayList<Certificate>();
+    final var e = this.store.certEntriesByAlias().get(alias);
     if (e == null) {
       return null;
     }
-    return new Certificate[]{e.certificate()};
+
+    certificates.add(e.certificate());
+
+    var eNow = e;
+    while (true) {
+      final var issuerPrincipal =
+        eNow.certificate().getIssuerX500Principal();
+      final var currentPrincipal =
+        eNow.certificate().getSubjectX500Principal();
+
+      final var issuerName =
+        issuerPrincipal.getName();
+      final var currentName =
+        currentPrincipal.getName();
+
+      if (Objects.equals(issuerName, currentName)) {
+        break;
+      }
+
+      final var eIssuer =
+        this.store.certEntriesByCN().get(issuerName);
+
+      if (eIssuer != null) {
+        certificates.add(eIssuer.certificate());
+        eNow = eIssuer;
+      } else {
+        break;
+      }
+    }
+
+    final var results = new Certificate[certificates.size()];
+    certificates.toArray(results);
+    LOG.trace("engineGetCertificateChain: return {} certificates", results.length);
+    return results;
   }
 
   @Override
@@ -103,7 +138,7 @@ public final class CMKeyStore extends KeyStoreSpi
   {
     LOG.trace("engineGetCertificate: {}", alias);
 
-    final var e = this.store.certEntries().get(alias);
+    final var e = this.store.certEntriesByAlias().get(alias);
     if (e == null) {
       return null;
     }
@@ -120,7 +155,7 @@ public final class CMKeyStore extends KeyStoreSpi
     if (ek != null) {
       return Date.from(ek.creationTime().toInstant());
     }
-    final var ec = this.store.certEntries().get(alias);
+    final var ec = this.store.certEntriesByAlias().get(alias);
     if (ec != null) {
       return Date.from(ec.creationTime().toInstant());
     }
@@ -166,7 +201,7 @@ public final class CMKeyStore extends KeyStoreSpi
   {
     final var s = new HashSet<String>();
     s.addAll(this.store.keyEntries().keySet());
-    s.addAll(this.store.certEntries().keySet());
+    s.addAll(this.store.certEntriesByAlias().keySet());
     return Collections.enumeration(s);
   }
 
@@ -174,14 +209,14 @@ public final class CMKeyStore extends KeyStoreSpi
   public boolean engineContainsAlias(
     final String alias)
   {
-    return this.store.certEntries().containsKey(alias)
+    return this.store.certEntriesByAlias().containsKey(alias)
       || this.store.keyEntries().containsKey(alias);
   }
 
   @Override
   public int engineSize()
   {
-    return this.store.certEntries().size() + this.store.keyEntries().size();
+    return this.store.certEntriesByAlias().size() + this.store.keyEntries().size();
   }
 
   @Override
@@ -195,14 +230,14 @@ public final class CMKeyStore extends KeyStoreSpi
   public boolean engineIsCertificateEntry(
     final String alias)
   {
-    return this.store.certEntries().containsKey(alias);
+    return this.store.certEntriesByAlias().containsKey(alias);
   }
 
   @Override
   public String engineGetCertificateAlias(
     final Certificate cert)
   {
-    return this.store.certEntries()
+    return this.store.certEntriesByAlias()
       .values()
       .stream()
       .filter(p -> Objects.equals(p.certificate(), cert))

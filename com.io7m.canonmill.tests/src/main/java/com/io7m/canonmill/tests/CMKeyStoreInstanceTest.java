@@ -61,7 +61,7 @@ public final class CMKeyStoreInstanceTest
   {
     final var i = CMKeyStoreInstance.empty();
     assertEquals(Map.of(), i.keyEntries());
-    assertEquals(Map.of(), i.certEntries());
+    assertEquals(Map.of(), i.certEntriesByAlias());
   }
 
   @Test
@@ -95,7 +95,7 @@ public final class CMKeyStoreInstanceTest
     );
 
     assertEquals(2, i.keyEntries().size());
-    assertEquals(3, i.certEntries().size());
+    assertEquals(3, i.certEntriesByAlias().size());
   }
 
   @Test
