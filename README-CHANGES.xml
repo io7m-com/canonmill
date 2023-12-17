@@ -6,14 +6,14 @@
         <c:change date="2023-08-20T00:00:00+00:00" summary="Initial release."/>
       </c:changes>
     </c:release>
-    <c:release date="2023-12-17T14:26:36+00:00" is-open="true" ticket-system="com.github.io7m.canonmill" version="2.0.0">
+    <c:release date="2023-12-17T14:43:27+00:00" is-open="false" ticket-system="com.github.io7m.canonmill" version="2.0.0">
       <c:changes>
         <c:change date="2023-12-17T00:00:00+00:00" summary="Fix an issue that can cause incompatible algorithm names.">
           <c:tickets>
             <c:ticket id="2"/>
           </c:tickets>
         </c:change>
-        <c:change compatible="false" date="2023-12-17T14:26:36+00:00" summary="Require JDK 21"/>
+        <c:change compatible="false" date="2023-12-17T00:00:00+00:00" summary="Require JDK 21"/>
       </c:changes>
     </c:release>
   </c:releases>
