@@ -6,12 +6,12 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor.full</artifactId>
-    <version>8.0.0-beta0001</version>
+    <version>8.1.0</version>
   </parent>
 
   <groupId>com.io7m.canonmill</groupId>
   <artifactId>com.io7m.canonmill</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
 
   <packaging>pom</packaging>
   <name>com.io7m.canonmill</name>
@@ -25,11 +25,11 @@
   </modules>
 
   <properties>
-    <bouncycastle.version>1.76</bouncycastle.version>
+    <bouncycastle.version>1.77</bouncycastle.version>
     <com.io7m.xstructural.version>1.8.0</com.io7m.xstructural.version>
     <io7m.api.previousVersion>1.0.0</io7m.api.previousVersion>
-    <junit.version>5.10.0</junit.version>
-    <logback.version>1.4.11</logback.version>
+    <junit.version>5.10.1</junit.version>
+    <logback.version>1.4.14</logback.version>
   </properties>
 
   <licenses>
@@ -129,7 +129,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.4.0</version>
+        <version>5.8.0</version>
       </dependency>
       <dependency>
         <groupId>ch.qos.logback</groupId>
@@ -159,7 +159,7 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>2.0.7</version>
+        <version>2.0.9</version>
       </dependency>
       <dependency>
         <groupId>com.beust</groupId>
@@ -169,7 +169,7 @@
       <dependency>
         <groupId>com.io7m.primogenitor</groupId>
         <artifactId>com.io7m.primogenitor.support</artifactId>
-        <version>8.0.0-beta0001</version>
+        <version>8.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.osgi</groupId>
