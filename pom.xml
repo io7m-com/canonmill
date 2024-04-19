@@ -25,7 +25,7 @@
   </modules>
 
   <properties>
-    <bouncycastle.version>1.77</bouncycastle.version>
+    <bouncycastle.version>1.78.1</bouncycastle.version>
     <com.io7m.xstructural.version>1.8.0</com.io7m.xstructural.version>
     <io7m.api.previousVersion>2.0.1</io7m.api.previousVersion>
     <junit.version>5.10.1</junit.version>
