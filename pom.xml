@@ -25,9 +25,15 @@
   </modules>
 
   <properties>
-    <bouncycastle.version>1.78.1</bouncycastle.version>
-    <com.io7m.xstructural.version>1.8.0</com.io7m.xstructural.version>
+    <!-- Configuration. -->
     <io7m.api.previousVersion>2.0.1</io7m.api.previousVersion>
+    <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
+
+    <!-- io7m dependencies. -->
+    <com.io7m.xstructural.version>1.8.0</com.io7m.xstructural.version>
+
+    <!-- Third-party dependencies. -->
+    <bouncycastle.version>1.78.1</bouncycastle.version>
     <junit.version>5.10.2</junit.version>
     <logback.version>1.4.14</logback.version>
   </properties>
@@ -40,9 +46,9 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/io7m/canonmill</url>
-    <connection>scm:git:https://github.com/io7m/canonmill</connection>
-    <developerConnection>scm:git:https://github.com/io7m/canonmill</developerConnection>
+    <url>https://www.github.com/io7m-com/canonmill</url>
+    <connection>scm:git:https://www.github.com/io7m-com/canonmill</connection>
+    <developerConnection>scm:git:https://www.github.com/io7m-com/canonmill</developerConnection>
   </scm>
 
   <developers>
