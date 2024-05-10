@@ -37,7 +37,7 @@
     </dependency>
     <dependency>
       <groupId>com.io7m.jcip</groupId>
-      <artifactId>com.io7m.jcip.annotations</artifactId>
+      <artifactId>com.io7m.jcip</artifactId>
     </dependency>
     <dependency>
       <groupId>com.io7m.blackthorne</groupId>
