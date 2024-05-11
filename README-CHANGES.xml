@@ -16,17 +16,23 @@
         <c:change compatible="false" date="2023-12-17T00:00:00+00:00" summary="Require JDK 21"/>
       </c:changes>
     </c:release>
-    <c:release date="2023-12-17T16:58:07+00:00" is-open="true" ticket-system="com.github.io7m.canonmill" version="2.0.1">
+    <c:release date="2024-05-11T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.canonmill" version="2.0.1">
       <c:changes>
-        <c:change date="2023-12-17T16:58:07+00:00" summary="Full certificate chains were not being returned.">
+        <c:change date="2023-12-17T00:00:00+00:00" summary="Full certificate chains were not being returned.">
           <c:tickets>
             <c:ticket id="3"/>
           </c:tickets>
         </c:change>
       </c:changes>
     </c:release>
+    <c:release date="2024-05-11T11:00:53+00:00" is-open="true" ticket-system="com.github.io7m.canonmill" version="2.1.0">
+      <c:changes>
+        <c:change date="2024-05-11T11:00:53+00:00" summary="Move to new organization."/>
+      </c:changes>
+    </c:release>
   </c:releases>
   <c:ticket-systems>
-    <c:ticket-system default="true" id="com.github.io7m.canonmill" url="https://www.github.com/io7m/canonmill/issues/"/>
+    <c:ticket-system default="true" id="com.github.io7m.canonmill"
+                     url="https://www.github.com/io7m-com/canonmill/issues/"/>
   </c:ticket-systems>
 </c:changelog>
