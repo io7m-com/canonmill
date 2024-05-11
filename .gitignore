@@ -11,3 +11,6 @@ target
 .nra.cache
 .nia.cache
 com.io7m.calino.specification/src/main/coq/html
+.jqwik-database
+dependency-reduced-pom.xml
+pom.xml.versionsBackup

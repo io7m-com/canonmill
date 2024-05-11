@@ -1,0 +1,22 @@
+
+## canonmill
+
+The `canonmill` package provides a
+[Keystore](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/security/KeyStore.html)
+implementation designed to be less painful from an operational perspective than any of the
+`Keystore` implementations currently included in the standard JDK.
+
+## Features
+
+* Exposes a simple directory-based keystore with a single XML file that maps certificate aliases to files. Keys and certificates are expected to be PEM-encoded regular files.
+* Implicit compatibility with ACME systems; ACME clients can simply copy certificate files into the directory and, as long as the certificates have an entry in the XML index file, the new certificates will become available as soon as the Keystore is reloaded.
+* A small, easily auditable codebase with use of modularity for correctness.
+* An extensive automated test suite with high coverage.
+* Platform independence. No platform-dependent code is included in any form.
+* [OSGi](https://www.osgi.org/)-ready.
+* [JPMS](https://en.wikipedia.org/wiki/Java_Platform_Module_System)-ready.
+* ISC license.
+
+## Usage
+
+See the [documentation](https://www.io7m.com/software/canonmill/).
