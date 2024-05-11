@@ -61,7 +61,7 @@
   </developers>
 
   <issueManagement>
-    <url>https://www.github.com/io7m/canonmill/issues</url>
+    <url>https://www.github.com/io7m-com/canonmill/issues</url>
     <system>GitHub Issues</system>
   </issueManagement>
 
@@ -83,7 +83,7 @@
 
   <ciManagement>
     <system>GitHub Actions</system>
-    <url>https://github.com/canonmill/actions</url>
+    <url>https://www.github.com/io7m-com/canonmill/actions</url>
   </ciManagement>
 
   <prerequisites>
