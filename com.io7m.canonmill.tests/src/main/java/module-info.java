@@ -24,8 +24,9 @@ open module com.io7m.canonmill.tests
 
   exports com.io7m.canonmill.tests;
 
-  requires transitive org.junit.jupiter.api;
-  requires transitive org.junit.jupiter.engine;
-  requires transitive org.junit.platform.commons;
-  requires transitive org.junit.platform.engine;
+  requires org.junit.jupiter.api;
+  requires org.junit.jupiter.engine;
+  requires org.junit.platform.commons;
+  requires org.junit.platform.engine;
+  requires org.junit.platform.launcher;
 }
