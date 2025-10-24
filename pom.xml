@@ -33,7 +33,7 @@
     <com.io7m.xstructural.version>1.9.0</com.io7m.xstructural.version>
 
     <!-- Third-party dependencies. -->
-    <bouncycastle.version>1.78.1</bouncycastle.version>
+    <bouncycastle.version>1.82</bouncycastle.version>
     <org.junit.version>5.14.0</org.junit.version>
     <logback.version>1.5.18</logback.version>
   </properties>
