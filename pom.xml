@@ -36,7 +36,7 @@
 
     <!-- Third-party dependencies. -->
     <bouncycastle.version>1.83</bouncycastle.version>
-    <org.junit.version>5.14.1</org.junit.version>
+    <org.junit.version>5.14.2</org.junit.version>
     <logback.version>1.5.24</logback.version>
   </properties>
 
