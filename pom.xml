@@ -35,7 +35,7 @@
     <com.io7m.xstructural.version>2.0.1</com.io7m.xstructural.version>
 
     <!-- Third-party dependencies. -->
-    <bouncycastle.version>1.83</bouncycastle.version>
+    <bouncycastle.version>1.84</bouncycastle.version>
     <org.junit.version>5.14.3</org.junit.version>
     <logback.version>1.5.32</logback.version>
   </properties>
